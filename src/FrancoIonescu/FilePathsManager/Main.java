@@ -14,9 +14,10 @@ public class Main {
     {
         String[] filePaths = new String[1];
         String[] recycleBin = new String[1];
-        File file = new File("D:\\Proiecte\\Java\\interview\\src\\FilePaths.txt");
+        String[] filePathsFromFile = new String[1];
+        File file = new File("FilePaths.txt");
         int option = 0;
-        while(option != 6)
+        while(option != 8)
         {
             option = menu();
             switch(option)
@@ -31,9 +32,11 @@ public class Main {
                     break;
                 case 5: filePaths = recoverFromRecycleBin(filePaths,recycleBin);
                     break;
-                case 6: readFromFile(file);
+                case 6: filePathsFromFile = readFromFile(file, filePathsFromFile);
                     break;
-                case 7:
+                case 7: filePaths = copyFromFile(file, filePathsFromFile, filePaths);
+                    break;
+                case 8:
                     break;
             }
         }
@@ -41,7 +44,8 @@ public class Main {
     static String[] addPaths(String[] filePaths) {
         Scanner scan = new Scanner(System.in);
         String path;
-        System.out.println("Enter the path: ");
+        System.out.println();
+        System.out.print("Enter the path: ");
         path = scan.nextLine();
         if(path.contains("/") || path.contains("\\"))
         {
@@ -51,8 +55,10 @@ public class Main {
         }
         else
         {
-            System.out.println("Enter a valid path");
+            System.out.print("Enter a valid path!");
+            filePaths = addPaths(filePaths);
         }
+        System.out.println();
         return filePaths;
     }
     static void displayPaths(String[] filePaths)
@@ -80,10 +86,10 @@ public class Main {
     {
         Scanner scan = new Scanner(System.in);
         displayPaths(filePaths);
-        System.out.println("Enter the number for the path you want to delete: ");
+        System.out.print("Enter the number for the path you want to delete: ");
         while(!scan.hasNextInt())
         {
-            System.out.println("Please enter a valid number: ");
+            System.out.print("Please enter a valid number: ");
             scan.next();
         }
         recycleBinIndex++;
@@ -97,10 +103,10 @@ public class Main {
     {
         Scanner scan = new Scanner(System.in);
         displayRecycleBin(recycleBin);
-        System.out.println("enter the number for the path you want to recover: ");
+        System.out.print("enter the number for the path you want to recover: ");
         while(!scan.hasNextInt())
         {
-            System.out.println("Please enter a valid number: ");
+            System.out.print("Please enter a valid number: ");
             scan.next();
         }
         recycleBinIndex--;
@@ -110,7 +116,7 @@ public class Main {
         return buffer;
     }
 
-    static void readFromFile(File file)
+    static String[] readFromFile(File file, String[] filePathsFromFile)
     {
         try
         {
@@ -122,23 +128,39 @@ public class Main {
                 String line = scan.nextLine();
                 numberOfFiles++;
             }
-            String[] filePathsFromFile = new String[numberOfFiles + 1];
+            filePathsFromFile = new String[numberOfFiles];
             numberOfFiles = 0;
             scan.close();
             scan = new Scanner(file);
+            System.out.println();
             while(scan.hasNextLine())
             {
                 filePathsFromFile[index] = scan.nextLine();
-                System.out.println(filePathsFromFile[index]);
+                System.out.println(index + 1 + ". " + filePathsFromFile[index]);
                 index++;
             }
+            System.out.println();
             index = 0;
         }
         catch(IOException e)
         {
             e.printStackTrace();
         }
+        return filePathsFromFile;
     }
+
+    static String[] copyFromFile(File file, String[] filePathsFromFile, String[] filePaths)
+    {
+        Scanner scan = new Scanner(System.in);
+        filePathsFromFile = readFromFile(file, filePathsFromFile);
+        System.out.print("Enter the file path you want to add: ");
+        int option = scan.nextInt();
+        String[] buffer = Arrays.copyOf(filePaths,filePaths.length + 1);
+        buffer[filePaths.length - 1] = filePathsFromFile[option - 1];
+        filePathIndex++;
+        return buffer;
+    }
+
     static int menu()
     {
         Scanner scan = new Scanner(System.in);
@@ -151,40 +173,34 @@ public class Main {
             System.out.println("4. Display Recycle Bin");
             System.out.println("5. Recover path");
             System.out.println("6. Read paths from file");
-            System.out.println("7. Exit");
+            System.out.println("7. Copy path from file");
+            System.out.println("8. Exit");
             System.out.print("Enter your option: ");
             option = scan.nextInt();
-            if(option < 1 || option > 6)
+            if(option < 1 || option > 8)
             {
-                System.out.println("\nNumber out of bounds!");
+                System.out.println();
+                System.out.println("Number out of bounds!");
+                System.out.println();
             }
-            if(option == 1)
+            switch(option)
             {
-                return 1;
-            }
-            if(option == 2)
-            {
-                return 2;
-            }
-            if(option == 3)
-            {
-                return 3;
-            }
-            if(option == 4)
-            {
-                return 4;
-            }
-            if(option == 5)
-            {
-                return 5;
-            }
-            if(option == 6)
-            {
-                return 6;
-            }
-            if(option == 7)
-            {
-                return 7;
+                case 1:
+                    return 1;
+                case 2:
+                    return 2;
+                case 3:
+                    return 3;
+                case 4:
+                    return 4;
+                case 5:
+                    return 5;
+                case 6:
+                    return 6;
+                case 7:
+                    return 7;
+                case 8:
+                    return 8;
             }
         }
         return 0;
