@@ -191,7 +191,7 @@ public class Main {
                     numberOfFiles++;
                 }
             }
-            filePathsFromFile = new String[numberOfFcd iles];
+            filePathsFromFile = new String[numberOfFiles];
             numberOfFiles = 0;
             scan.close();
             scan = new Scanner(file);
