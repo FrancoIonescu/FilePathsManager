@@ -87,7 +87,7 @@ public class Main {
     static String[] deletePaths(String[] filePaths, String[] recycleBin)
     {
         Scanner scan = new Scanner(System.in);
-        int option = 0;
+        int option;
         displayPaths(filePaths);
         System.out.println(filePathIndex + 1 + ". " + "Exit");
         System.out.print("Enter the number for the path you want to delete: ");
@@ -145,7 +145,7 @@ public class Main {
     static String[] recoverFromRecycleBin(String[] filePaths, String[] recycleBin)
     {
         Scanner scan = new Scanner(System.in);
-        int option = 0;
+        int option;
         displayRecycleBin(recycleBin);
         System.out.println(recycleBinIndex + 1 + ". " + "Exit");
         System.out.print("enter the number for the path you want to recover: ");
@@ -170,8 +170,8 @@ public class Main {
         {
             recycleBinIndex--;
             filePathIndex++;
-            filePaths = Arrays.copyOf(filePaths,filePaths.length + 1);
             filePaths[filePaths.length - 1] = recycleBin[option - 1];
+            filePaths = Arrays.copyOf(filePaths,filePaths.length + 1);
         }
         return filePaths;
     }
@@ -191,7 +191,7 @@ public class Main {
                     numberOfFiles++;
                 }
             }
-            filePathsFromFile = new String[numberOfFiles];
+            filePathsFromFile = new String[numberOfFcd iles];
             numberOfFiles = 0;
             scan.close();
             scan = new Scanner(file);
@@ -243,7 +243,14 @@ public class Main {
             System.out.println("7. Copy path from file");
             System.out.println("8. Exit");
             System.out.print("Enter your option: ");
-            option = scan.nextInt();
+            String validare = scan.nextLine();
+            if (validare.matches("\\d+")) {
+                option = Integer.parseInt(validare);
+            }
+            else {
+                System.out.println("\nIntroduceti o optiune valida: \n");
+                menu();
+            }
             if(option < 1 || option > 8)
             {
                 System.out.println();
