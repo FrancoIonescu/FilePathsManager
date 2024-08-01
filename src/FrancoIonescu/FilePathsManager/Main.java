@@ -133,7 +133,6 @@ public class Main {
         int index = 0;
 
         for (int i = 0; i < updatedFilePaths.length; i++) {
-            // Check if the current file path is not in the recycle bin
             if (!isInRecycleBin(filePaths[i], recycleBin)) {
                 updatedFilePaths[index] = filePaths[i];
                 index++;
